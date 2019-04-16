@@ -1,7 +1,7 @@
 sudo: required
 
 env:
-  DOCKER_IMAGE=dtzar/helm-kubectl
+  DOCKER_IMAGE=richardzone/helm-kubectl-terraform
   DOCKER_TAG=2.13.1
 
 services:

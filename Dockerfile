@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:latest
 
 ARG VCS_REF
 ARG BUILD_DATE
@@ -16,13 +16,18 @@ ENV KUBE_LATEST_VERSION="v1.13.4"
 # Note: Latest version of helm may be found at:
 # https://github.com/kubernetes/helm/releases
 ENV HELM_VERSION="v2.13.1"
+ENV TERRAFORM_VERSION=0.10.0
+ENV TF_DEV=true
+ENV TF_RELEASE=true
 
-RUN apk add --no-cache ca-certificates bash git openssh curl \
+RUN apk add --update ca-certificates bash git openssh wget \
     && wget -q https://storage.googleapis.com/kubernetes-release/release/${KUBE_LATEST_VERSION}/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl \
     && chmod +x /usr/local/bin/kubectl \
     && wget -q https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
     && chmod +x /usr/local/bin/helm
 
-WORKDIR /config
+ADD https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip ./
+RUN unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /bin
+RUN rm -f terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
-CMD bash
+ENTRYPOINT ["/bin/terraform"]
