@@ -16,7 +16,7 @@ ENV KUBE_LATEST_VERSION="v1.13.4"
 # Note: Latest version of helm may be found at:
 # https://github.com/kubernetes/helm/releases
 ENV HELM_VERSION="v2.13.1"
-ENV TERRAFORM_VERSION=0.10.0
+ENV TERRAFORM_VERSION=0.11.13
 ENV TF_DEV=true
 ENV TF_RELEASE=true
 
